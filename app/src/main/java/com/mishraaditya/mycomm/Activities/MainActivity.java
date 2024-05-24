@@ -2,6 +2,7 @@ package com.mishraaditya.mycomm.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,7 +15,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.mishraaditya.mycomm.ModelResponse.RegisterResponse;
 import com.mishraaditya.mycomm.R;
+import com.mishraaditya.mycomm.RetrofitClient;
+
+import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -48,11 +57,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btnRegister){
-            Toast.makeText(this,"Registered Successfully",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Registered Successfully",Toast.LENGTH_SHORT).show();
+            registerUser();
             
         } else if (v.getId()==R.id.loginLink) {
             switchOnLogin();
         }
+    }
+
+    private void registerUser() {
+        String userName=username.getText().toString();
+        String userEmail=email.getText().toString();
+        String userPassword=password.getText().toString();
+
+        if(userName.isEmpty()){
+            username.requestFocus();
+            username.setError("Please Enter Your Username");
+            return;
+            //If Not Applied return then your validation will not matter and User will be registered.
+        }
+        if(userEmail.isEmpty()){
+            email.requestFocus();
+            email.setError("Please Enter Your email");
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+            email.requestFocus();
+            email.setError("Please Enter Valid Email");
+            return;
+        }
+        if(userPassword.isEmpty()){
+            password.requestFocus();
+            password.setError("Please Enter Your Password");
+            return;
+        }
+        if(userPassword.length()<8){
+            password.requestFocus();
+            password.setError("Password Should Have 8digits");
+            return;
+        }
+
+        Call<RegisterResponse> call = RetrofitClient.getInstance().getApi().register(
+                userName,userEmail,userPassword
+        );
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                RegisterResponse registerResponse=response.body();
+                if(response.isSuccessful()){
+                    Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void switchOnLogin() {
