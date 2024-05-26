@@ -1,5 +1,6 @@
 package com.mishraaditya.mycomm;
 
+import com.mishraaditya.mycomm.ModelResponse.FetchUserResponse;
 import com.mishraaditya.mycomm.ModelResponse.LoginResponse;
 import com.mishraaditya.mycomm.ModelResponse.RegisterResponse;
 import com.mishraaditya.mycomm.ModelResponse.User;
@@ -7,6 +8,7 @@ import com.mishraaditya.mycomm.ModelResponse.User;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiInterface
@@ -25,4 +27,7 @@ public interface ApiInterface
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @GET("fetchusers.php")
+    Call<FetchUserResponse> fetchUsers();
 }
