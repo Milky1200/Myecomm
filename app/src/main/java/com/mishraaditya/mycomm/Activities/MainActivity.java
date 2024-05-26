@@ -105,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 RegisterResponse registerResponse=response.body();
                 if(response.isSuccessful()){
+                    Intent iNext=new Intent(MainActivity.this, LoginActivity.class);
+                    iNext.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(iNext);
+                    finish();
                     Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
                 }
                 else {
