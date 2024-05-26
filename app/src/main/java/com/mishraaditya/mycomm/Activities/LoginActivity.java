@@ -99,8 +99,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse=response.body();
                 if(response.isSuccessful()){
-                    sharedPrefManager.saveUser(loginResponse.getUser());
                     if(loginResponse.getError().equals("000")){
+                        sharedPrefManager.saveUser(loginResponse.getUser());
                         Toast.makeText(LoginActivity.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
                         Intent iNext=new Intent(LoginActivity.this, HomeActivity.class);
                         iNext.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
