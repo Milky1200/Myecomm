@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.mishraaditya.mycomm.ModelResponse.LoginResponse;
 import com.mishraaditya.mycomm.R;
 import com.mishraaditya.mycomm.RetrofitClient;
+import com.mishraaditya.mycomm.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     AppCompatButton btnLogin;
     TextView registerLink;
     EditText email,password;
+    SharedPrefManager sharedPrefManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         registerLink.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
+        sharedPrefManager=new SharedPrefManager(getApplicationContext());
 
 
 
@@ -96,10 +99,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse=response.body();
                 if(response.isSuccessful()){
-                    Toast.makeText(LoginActivity.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
-                    Intent iNext=new Intent(LoginActivity.this, HomeActivity.class);
-                    iNext.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(iNext);
+                    sharedPrefManager.saveUser(loginResponse.getUser());
+                    if(loginResponse.getError().equals("000")){
+                        Toast.makeText(LoginActivity.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                        Intent iNext=new Intent(LoginActivity.this, HomeActivity.class);
+                        iNext.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(iNext);
+                    }else {
+                        Toast.makeText(LoginActivity.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     Toast.makeText(LoginActivity.this,"Failure Occurred",Toast.LENGTH_LONG).show();
@@ -118,5 +126,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void switchOnRegister() {
         Intent i=new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
+    }
+
+    protected void onStart(){
+        super.onStart();
+        if(sharedPrefManager.isLogged()){
+            Intent iNext=new Intent(LoginActivity.this, HomeActivity.class);
+            iNext.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(iNext);
+        }
     }
 }
