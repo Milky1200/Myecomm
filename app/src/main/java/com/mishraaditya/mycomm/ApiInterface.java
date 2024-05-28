@@ -38,4 +38,12 @@ public interface ApiInterface
             @Field("username") String username,
             @Field("email") String email
     );
+
+    @FormUrlEncoded
+    @POST("updatepassword.php")
+    Call<RegisterResponse> updateUserPassword(
+            @Field("email") String email,
+            @Field("current") String currentPassword,
+            @Field("new") String newPassword
+    );
 }

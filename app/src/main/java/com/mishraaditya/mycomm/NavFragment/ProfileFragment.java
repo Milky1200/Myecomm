@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.mishraaditya.mycomm.Activities.HomeActivity;
 import com.mishraaditya.mycomm.Activities.LoginActivity;
+import com.mishraaditya.mycomm.Activities.MainActivity;
 import com.mishraaditya.mycomm.ModelResponse.LoginResponse;
+import com.mishraaditya.mycomm.ModelResponse.RegisterResponse;
 import com.mishraaditya.mycomm.R;
 import com.mishraaditya.mycomm.RetrofitClient;
 import com.mishraaditya.mycomm.SharedPrefManager;
@@ -24,21 +26,36 @@ import com.mishraaditya.mycomm.SharedPrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener{
-    EditText username,email;
+    EditText username,email,currPass,newPass;
+
     int userId;
+    String emailPass;
     SharedPrefManager sharedPrefManager;
-    AppCompatButton btnUpdate;
+    AppCompatButton btnUpdate,btnUpdatePass;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
+
+        //UpdateAccountInfo
         email=view.findViewById(R.id.userEmail);
         username=view.findViewById(R.id.userName);
         btnUpdate=view.findViewById(R.id.btnUserUpdate);
+        //UpdateUserPassword
+        btnUpdatePass=view.findViewById(R.id.btnUpdatePassword);
+        currPass=view.findViewById(R.id.currentPassword);
+        newPass=view.findViewById(R.id.newPassword);
+        //shared Pref
         sharedPrefManager=new SharedPrefManager(getActivity());
         userId=sharedPrefManager.getUser().getId();
+        emailPass=sharedPrefManager.getUser().getEmail();
+
         btnUpdate.setOnClickListener(this);
+        btnUpdatePass.setOnClickListener(this);
+
+
 
 
         return view;
@@ -48,8 +65,56 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         if(v.getId()==R.id.btnUserUpdate){
             doUpdateUser();
+        }else if(v.getId()==R.id.btnUpdatePassword){
+            doUpdatePassword();
         }
     }
+
+    private void doUpdatePassword() {
+        String currentPass=currPass.getText().toString().trim();
+        String newPassword=newPass.getText().toString().trim();
+        if(currentPass.isEmpty()){
+            currPass.requestFocus();
+            currPass.setError("Enter Current Password");
+            return;
+        }
+        if(currentPass.length()<8){
+            currPass.requestFocus();
+            currPass.setError("Password Should Have 8digits");
+            return;
+        }
+        if(newPassword.isEmpty()){
+            newPass.requestFocus();
+            newPass.setError("Enter Current Password");
+            return;
+        }
+        if(newPassword.length()<8){
+            newPass.requestFocus();
+            newPass.setError("Password Should Have 8digits");
+            return;
+        }
+
+        Call<RegisterResponse> call = RetrofitClient.getInstance().getApi()
+                .updateUserPassword(emailPass,currentPass,newPassword);
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                RegisterResponse passwordResponse=response.body();
+                if(response.isSuccessful()){
+                    Toast.makeText(getActivity(),passwordResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(),passwordResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void doUpdateUser(){
         String userName=username.getText().toString().trim();
         String userEmail=email.getText().toString().trim();
