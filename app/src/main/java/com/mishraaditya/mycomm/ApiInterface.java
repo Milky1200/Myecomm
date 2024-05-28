@@ -30,4 +30,12 @@ public interface ApiInterface
 
     @GET("fetchusers.php")
     Call<FetchUserResponse> fetchUsers();
+
+    @FormUrlEncoded
+    @POST("updateuser.php")
+    Call<LoginResponse> updateUserAcc(
+            @Field("id") int id,
+            @Field("username") String username,
+            @Field("email") String email
+    );
 }
