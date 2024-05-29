@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void switchOnRegister() {
         Intent i=new Intent(LoginActivity.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
 

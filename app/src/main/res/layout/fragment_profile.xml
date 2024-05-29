@@ -171,6 +171,50 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="9dp"
+                android:elevation="10dp"
+                android:layout_marginBottom="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="15dp"
+                        android:text="Logout"
+                        android:fontFamily="cursive"
+                        android:textColor="#fff"
+                        android:background="#3BB5EC"
+                        android:layout_marginBottom="15dp"
+                        android:id="@+id/btnLogout"
+                        >
+                    </androidx.appcompat.widget.AppCompatButton>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="15dp"
+                        android:text="Delete"
+                        android:fontFamily="cursive"
+                        android:textColor="#fff"
+                        android:background="#3BB5EC"
+                        android:layout_marginBottom="15dp"
+                        android:id="@+id/btnDelete"
+                        >
+                    </androidx.appcompat.widget.AppCompatButton>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 

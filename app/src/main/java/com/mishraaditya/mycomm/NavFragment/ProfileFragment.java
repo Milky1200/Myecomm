@@ -34,7 +34,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     int userId;
     String emailPass;
     SharedPrefManager sharedPrefManager;
-    AppCompatButton btnUpdate,btnUpdatePass;
+    AppCompatButton btnUpdate,btnUpdatePass,btnLogout,btnDelete;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
@@ -47,6 +47,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         btnUpdatePass=view.findViewById(R.id.btnUpdatePassword);
         currPass=view.findViewById(R.id.currentPassword);
         newPass=view.findViewById(R.id.newPassword);
+        btnLogout=view.findViewById(R.id.btnLogout);
+        btnDelete=view.findViewById(R.id.btnDelete);
+
+        //Logout&DeleteAcc
+
         //shared Pref
         sharedPrefManager=new SharedPrefManager(getActivity());
         userId=sharedPrefManager.getUser().getId();
@@ -54,6 +59,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         btnUpdate.setOnClickListener(this);
         btnUpdatePass.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
 
 
 
@@ -67,7 +74,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             doUpdateUser();
         }else if(v.getId()==R.id.btnUpdatePassword){
             doUpdatePassword();
+        } else if (v.getId()==R.id.btnLogout) {
+            userLogout();
         }
+    }
+
+    private void userLogout() {
+        sharedPrefManager.logout();
+        //clear all task and again move to login activity
+        Intent iNext=new Intent(getActivity(),LoginActivity.class);
+        iNext.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(iNext);
+        Toast.makeText(getActivity(),"You Are Logged Out",Toast.LENGTH_LONG).show();
     }
 
     private void doUpdatePassword() {
