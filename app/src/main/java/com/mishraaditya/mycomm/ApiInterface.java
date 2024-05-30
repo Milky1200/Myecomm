@@ -46,4 +46,10 @@ public interface ApiInterface
             @Field("current") String currentPassword,
             @Field("new") String newPassword
     );
+
+    @FormUrlEncoded
+    @POST("deleteuser.php")
+    Call<RegisterResponse> deleteUser(
+            @Field("id") int userId
+    );
 }

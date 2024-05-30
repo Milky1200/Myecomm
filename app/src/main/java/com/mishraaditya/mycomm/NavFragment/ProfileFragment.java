@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.mishraaditya.mycomm.Activities.HomeActivity;
@@ -76,7 +77,36 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             doUpdatePassword();
         } else if (v.getId()==R.id.btnLogout) {
             userLogout();
+        }else if(v.getId()==R.id.btnDelete){
+            deleteUser();
         }
+    }
+
+    private void deleteUser() {
+        Call<RegisterResponse> call=RetrofitClient.getInstance().
+                getApi().deleteUser(sharedPrefManager.getUser().getId());
+
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                RegisterResponse deleteResponse=response.body();
+                if(response.isSuccessful()) {
+                    if (deleteResponse.getError().equals("000")) {
+                        userLogout();
+                        Toast.makeText(getActivity(), deleteResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), deleteResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "Failed in Success", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Failed User Deletion: "+t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void userLogout() {
