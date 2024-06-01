@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.mishraaditya.mycomm.ModelResponse.FetchUserResponse;
 import com.mishraaditya.mycomm.R;
-import com.mishraaditya.mycomm.RetrofitClient;
-import com.mishraaditya.mycomm.UserAdapter;
+import com.mishraaditya.mycomm.ServerClients.RetrofitClient;
+import com.mishraaditya.mycomm.ServerClients.UserAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;

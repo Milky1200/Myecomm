@@ -17,13 +17,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.mishraaditya.mycomm.ModelResponse.LoginResponse;
 import com.mishraaditya.mycomm.R;
-import com.mishraaditya.mycomm.RetrofitClient;
-import com.mishraaditya.mycomm.SharedPrefManager;
+import com.mishraaditya.mycomm.ServerClients.RetrofitClient;
+import com.mishraaditya.mycomm.ServerClients.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 

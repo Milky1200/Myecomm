@@ -1,4 +1,4 @@
-package com.mishraaditya.mycomm;
+package com.mishraaditya.mycomm.ServerClients;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mishraaditya.mycomm.ModelResponse.User;
+import com.mishraaditya.mycomm.R;
 
 import java.util.List;
 

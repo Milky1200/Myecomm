@@ -1,4 +1,4 @@
-package com.mishraaditya.mycomm;
+package com.mishraaditya.mycomm.ServerClients;
 
 import com.mishraaditya.mycomm.ModelResponse.FetchUserResponse;
 import com.mishraaditya.mycomm.ModelResponse.LoginResponse;

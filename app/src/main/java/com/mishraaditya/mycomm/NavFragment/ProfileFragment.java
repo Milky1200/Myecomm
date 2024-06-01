@@ -1,7 +1,6 @@
 package com.mishraaditya.mycomm.NavFragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -12,22 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.mishraaditya.mycomm.Activities.HomeActivity;
 import com.mishraaditya.mycomm.Activities.LoginActivity;
-import com.mishraaditya.mycomm.Activities.MainActivity;
 import com.mishraaditya.mycomm.ModelResponse.LoginResponse;
 import com.mishraaditya.mycomm.ModelResponse.RegisterResponse;
 import com.mishraaditya.mycomm.R;
-import com.mishraaditya.mycomm.RetrofitClient;
-import com.mishraaditya.mycomm.SharedPrefManager;
+import com.mishraaditya.mycomm.ServerClients.RetrofitClient;
+import com.mishraaditya.mycomm.ServerClients.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener{
     EditText username,email,currPass,newPass;

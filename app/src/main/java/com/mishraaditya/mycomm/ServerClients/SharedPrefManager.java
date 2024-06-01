@@ -1,4 +1,4 @@
-package com.mishraaditya.mycomm;
+package com.mishraaditya.mycomm.ServerClients;
 
 import android.content.Context;
 import android.content.SharedPreferences;

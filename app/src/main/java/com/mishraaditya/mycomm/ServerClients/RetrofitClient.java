@@ -1,9 +1,4 @@
-package com.mishraaditya.mycomm;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import okhttp3.OkHttpClient;
+package com.mishraaditya.mycomm.ServerClients;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -12,6 +7,7 @@ public class RetrofitClient {
     public static String BASE_URL="http://192.168.1.37/userApi/";
     private static RetrofitClient retrofitClient;
     private static Retrofit retrofit;
+
 
     private RetrofitClient(){
         retrofit=new Retrofit.Builder()
